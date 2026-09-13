@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SSO 測試站 A · GitHub Pages</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; background: #f3f4f6; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,.12); padding: 28px; width: 100%; max-width: 560px; border-top: 6px solid #24292f; }
+    .tag { display: inline-block; background: #24292f; color: #fff; font-size: 12px; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+    h1 { margin: 10px 0 4px; font-size: 22px; color: #222; }
+    .origin { font-size: 12px; color: #888; font-family: Consolas, monospace; word-break: break-all; margin-bottom: 16px; }
+    .status { padding: 12px 14px; border-radius: 8px; font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+    .status.in { background: #d4edda; color: #155724; }
+    .status.out { background: #fff3cd; color: #856404; }
+    .status.wait { background: #e2e3e5; color: #383d41; }
+    .who { font-size: 13px; color: #333; line-height: 1.8; margin-bottom: 14px; font-family: Consolas, monospace; word-break: break-all; }
+    .who b { display: inline-block; min-width: 110px; color: #666; font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif; }
+    .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    button { padding: 11px 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; color: #fff; background: #24292f; }
+    button.secondary { background: #e74c3c; }
+    button.alt { background: #4a6491; }
+    button:disabled { opacity: .45; cursor: not-allowed; }
+    pre { background: #1e1e1e; color: #d4d4d4; font-size: 12px; padding: 12px; border-radius: 8px; max-height: 220px; overflow: auto; white-space: pre-wrap; word-break: break-all; margin: 0; }
+  </style>
+</head>
+<body data-site="githubpage" data-name="GitHub Pages">
+  <div class="card">
+    <span class="tag">測試站 A · GitHub Pages</span>
+    <h1>SSO 測試站 A</h1>
+    <div class="origin" id="origin"></div>
+    <div id="status" class="status wait">檢查登入狀態中…</div>
+    <div id="who" class="who"></div>
+    <div class="btns">
+      <button id="btnLogin">登入（到統一登入頁）</button>
+      <button id="btnLogout" class="secondary" disabled>登出（只登出本站）</button>
+      <button id="btnWrite" class="alt" disabled>寫入本站資料</button>
+      <button id="btnRead" class="alt" disabled>讀取各站資料</button>
+    </div>
+    <pre id="log"></pre>
+  </div>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
