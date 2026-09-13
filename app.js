@@ -36,8 +36,10 @@ async function render(user) {
     return;
   }
   const t = await user.getIdTokenResult();
-  st.className = "status in"; st.textContent = `已登入：${user.uid}`;
+  const profile = await sso.getProfile();
+  st.className = "status in"; st.textContent = `已登入：${profile.account}${profile.name ? "（" + profile.name + "）" : ""}`;
   $("who").innerHTML = [
+    ["姓名", profile.name || "-（尚未填寫）"],
     ["uid", user.uid], ["email", user.email], ["displayName", user.displayName || "-"],
     ["登入方式", t.signInProvider],
     ["role", t.claims.role ?? "-"], ["no", t.claims.no ?? "-"], ["studentId", t.claims.studentId ?? "-"],
@@ -59,9 +61,10 @@ $("btnLogout").onclick = async () => { await sso.logout(); log("已登出本站�
 $("btnWrite").onclick = async () => {
   const u = sso.getUser(); if (!u) return;
   try {
+    const profile = await sso.getProfile();
     await fs.setDoc(
       fs.doc(db, "gameProgress", u.uid, site, "latest"),
-      { site, siteName, origin: location.origin, at: fs.serverTimestamp(), count: fs.increment(1) },
+      { site, siteName, name: profile.name, origin: location.origin, at: fs.serverTimestamp(), count: fs.increment(1) },
       { merge: true }
     );
     log(`已寫入 gameProgress/${u.uid}/${site}/latest`);
@@ -75,7 +78,7 @@ $("btnRead").onclick = async () => {
       if (!snap.exists()) { log(`${s}：沒有資料`); continue; }
       const d = snap.data();
       const when = d.at && d.at.toDate ? d.at.toDate().toLocaleString("zh-TW", { hour12: false }) : "-";
-      log(`${s}：來自 ${d.origin}，寫入 ${d.count} 次，最後 ${when}`);
+      log(`${s}：${d.name || "(無姓名)"} 來自 ${d.origin}，寫入 ${d.count} 次，最後 ${when}`);
     } catch (e) { log(`${s}：讀取失敗 ${e.code || e.message}`); }
   }
 };
